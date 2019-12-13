@@ -159,6 +159,7 @@ int main() {
 						else {
 							input[input[i+3]] = 0;
 						}
+						i += 3;
 						break;
 					case 8:
 						if (fetch(input[i+1], mode[0]) == fetch(input[i+2], mode[1])) {
@@ -167,6 +168,7 @@ int main() {
 						else {
 							input[input[i+3]] = 0;
 						}
+						i += 3;
 						break;
 					default:
 						break;

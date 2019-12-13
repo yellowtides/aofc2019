@@ -2,14 +2,18 @@
 #include <string.h>
 
 #define ll long long
-#define MAXVAL 200000
+#define MAXVAL 2000000
 
-int input[MAXVAL];
+ll input[MAXVAL];
 int mode[10];
-	
-int fetch(int val, int mode) {
-	if (mode) {
+int relBase;
+
+ll fetch(ll val, int mode) {
+	if (mode == 1) {
 		return val;
+	}
+	if (mode == 2) {
+		return input[relBase+val];
 	}
 	return input[val];
 }
@@ -21,9 +25,9 @@ int main() {
 	encInp[inpSize] = ',';
 	encInp[++inpSize] = '\0';
 
-	int currVal = 0;
+	ll currVal = 0;
 	int n = 0;
-	int sign = 1;
+	ll sign = 1;
 
 	for (int i = 0; i < inpSize; i++) {
 		if (encInp[i] == ',') {
@@ -40,7 +44,7 @@ int main() {
 	}
 	
 	for (int i = 0; i < n; i++) {
-		
+
 		for (int modeInd = 0; modeInd <= 9; modeInd++) {
 			mode[modeInd] = 0;
 		}
@@ -53,27 +57,31 @@ int main() {
 			modeString /= 10;
 		}
 
-		int val;
+		ll val;
+		ll base = 0;
 
 		switch (input[i]%100) {
 			case 99:
 				i = n;
 				break;
 			case 1:
-				input[input[i+3]] = fetch(input[i+2], mode[1]) + fetch(input[i+1], mode[0]);
+				base = relBase*mode[2]/2;
+				input[input[i+3]+base] = fetch(input[i+2], mode[1]) + fetch(input[i+1], mode[0]);
 				i += 3;
 				break;
 			case 2:
-				input[input[i+3]] = fetch(input[i+2], mode[1]) * fetch(input[i+1], mode[0]);
+				base = relBase*mode[2]/2; 
+				input[input[i+3]+base] = fetch(input[i+2], mode[1]) * fetch(input[i+1], mode[0]);
 				i += 3;
 				break;
 			case 3:
-				scanf("%d", &val);
-				input[input[i+1]] = val;
+				scanf("%lld", &val);
+				base = relBase*mode[0]/2;
+				input[input[i+1]+base] = val;
 				i++;
 				break;
 			case 4:
-				printf("%d ", fetch(input[i+1], mode[0]));
+				printf("%lld ", fetch(input[i+1], mode[0]));
 				i++;
 				break;
 			case 5:
@@ -93,22 +101,28 @@ int main() {
 				}
 				break;
 			case 7:
+				base = relBase*mode[2]/2;
 				if (fetch(input[i+1], mode[0]) < fetch(input[i+2], mode[1])) {
-					input[input[i+3]] = 1;
+					input[input[i+3]+base] = 1;
 				}
 				else {
-					input[input[i+3]] = 0;
+					input[input[i+3]+base] = 0;
 				}
 				i += 3;
 				break;
 			case 8:
+				base = relBase*mode[2]/2;
 				if (fetch(input[i+1], mode[0]) == fetch(input[i+2], mode[1])) {
-					input[input[i+3]] = 1;
+					input[input[i+3]+base] = 1;
 				}
 				else {
-					input[input[i+3]] = 0;
+					input[input[i+3]+base] = 0;
 				}
 				i += 3;
+				break;
+			case 9:
+				relBase += fetch(input[i+1], mode[0]);
+				i++;
 				break;
 			default:
 				break;
