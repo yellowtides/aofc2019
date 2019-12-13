@@ -16,9 +16,17 @@ int main() {
 		int i = j;
 		while (i) {
 			int dig = i%10;
-			if (dig == prevDig) {
+			
+			int groupSize = 1;
+			while (dig == prevDig) {
+				i /= 10;
+				dig = i%10;
+				groupSize++;
+			}
+			if (groupSize == 2) {
 				hasDoubles = 1;
 			}
+
 			if (dig > prevDig) {
 				isBad = 1;
 				break;
