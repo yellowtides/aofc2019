@@ -76,6 +76,38 @@ int main() {
 				printf("%d ", fetch(input[i+1], mode[0]));
 				i++;
 				break;
+			case 5:
+				if (fetch(input[i+1], mode[0])) {
+					i = fetch(input[i+2], mode[1])-1;
+				}
+				else {
+					i += 2;
+				}
+				break;
+			case 6:
+				if (!fetch(input[i+1], mode[0])) {
+					i = fetch(input[i+2], mode[1])-1;
+				}
+				else {
+					i += 2;
+				}
+				break;
+			case 7:
+				if (fetch(input[i+1], mode[0]) < fetch(input[i+2], mode[1])) {
+					input[input[i+3]] = 1;
+				}
+				else {
+					input[input[i+3]] = 0;
+				}
+				break;
+			case 8:
+				if (fetch(input[i+1], mode[0]) == fetch(input[i+2], mode[1])) {
+					input[input[i+3]] = 1;
+				}
+				else {
+					input[input[i+3]] = 0;
+				}
+				break;
 			default:
 				break;
 		}
